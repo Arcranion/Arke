@@ -2,3 +2,4 @@ build
 .vs
 .idea
 src/generated
+scripts/__pycache__
