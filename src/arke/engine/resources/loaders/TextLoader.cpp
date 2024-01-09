@@ -1,13 +1,13 @@
 #include <arke/util/Error.h>
-#include <arke/engine/resources/containers/TextResource.h>
 #include "TextLoader.h"
 
 namespace Arke {
+
     std::string TextLoader::name() {
         return "TextLoader";
     }
 
-    ResourceContainer* TextLoader::load(std::filesystem::path path) {
+    ResourceType* TextLoader::load(std::filesystem::path path) {
         std::ifstream stream(path);
 
         if(!stream.is_open()) {

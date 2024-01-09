@@ -16,6 +16,18 @@ namespace Arke::UI {
         this->currentNode = this->currentNode->parent;
     }
 
+    DrawContext::Node *DrawContext::getRootNode() {
+        return this->rootNode;
+    }
+
+    DrawContext::Node *DrawContext::getLastAddedNode() {
+        return this->lastAddedNode;
+    }
+
+    DrawContext::Node *DrawContext::getCurrentNode() {
+        return this->currentNode;
+    }
+
     void DrawContext::Node::makeTree() {
         if(!this->children) this->children = new std::vector<Node*>;
     }

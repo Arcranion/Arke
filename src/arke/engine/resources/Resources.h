@@ -17,7 +17,7 @@ namespace Arke {
         std::vector<std::filesystem::path> resourcePaths;
         std::vector<ResourceLoader*> resourceLoaders;
         std::map<std::string, std::string> resourceQueue;
-        std::map<std::string, ResourceContainer*> resources;
+        std::map<std::string, ResourceType*> resources;
 
         int remaining = 0;
     public:
@@ -35,7 +35,7 @@ namespace Arke {
         inline T getData(const std::string& path);
 
         template<typename T>
-        inline ResourceContainer* getContainer(const std::string& path);
+        inline ResourceContainer<T>* getContainer(const std::string& path);
 
 
         void load(std::string loaderName, std::string path);
@@ -60,7 +60,7 @@ namespace Arke {
     }
 
     template<typename T>
-    ResourceContainer *Resources::getContainer(const std::string &path) {
+    ResourceContainer<T>* Resources::getContainer(const std::string &path) {
         return resources[path];
     }
 }

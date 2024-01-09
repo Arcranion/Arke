@@ -6,6 +6,18 @@
 
 namespace Arke::UI {
     class DrawCall {
+    public:
+        struct TextData {
+            std::string* text;
+            int fontIndex;
+        };
+
+        enum class Type {
+            Texture,
+            NinePatch, // TODO Unused yet
+            Text
+        };
+
         /**
          * Offset from parent draw call in pixels
          */
@@ -14,23 +26,24 @@ namespace Arke::UI {
 
         // +8 bytes using union
         union {
-            struct TextData {
-                std::string* text;
-                int fontIndex;
-            } textData;
+            TextData text{};
 
             unsigned int textureId;
 
             // TODO Nine-patch
-        };
+        } data;
 
         /**
          * Should implement calls for text, texture and nine-patch texture draw
          */
-        enum Type {
-            Texture,
-            NinePatch, // TODO Unused yet
-            Text
-        } type = Texture;
+        Type const type;
+
+        explicit DrawCall(unsigned int textureId): type(Type::Texture) {
+            this->data.textureId;
+        }
+
+        explicit DrawCall(TextData data): type(Type::Text) {
+            this->data.text;
+        };
     };
 }

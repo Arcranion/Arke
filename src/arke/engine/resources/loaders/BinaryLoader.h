@@ -2,7 +2,6 @@
 
 #include <arke/engine/resources/ResourceLoader.h>
 #include <arke/util/Error.h>
-#include <arke/engine/resources/containers/BinaryResource.h>
 
 #include <fstream>
 #include <utility>
@@ -11,9 +10,11 @@
 using namespace util;
 
 namespace Arke {
+    using BinaryResource = ResourceContainer<std::vector<unsigned char>>;
+
     class BinaryLoader: public ResourceLoader {
         std::string name() override;
 
-        ResourceContainer* load(std::filesystem::path path) override;
+        ResourceType* load(std::filesystem::path path) override;
     };
 }

@@ -59,13 +59,9 @@ set(SOURCES
         src/arke/engine/resources/Resources.cpp
         src/arke/engine/resources/loaders/TextLoader.h
         src/arke/engine/resources/loaders/TextLoader.cpp
-        src/arke/engine/resources/ResourceContainer.h
-        src/arke/engine/resources/containers/TextResource.h
-        src/arke/engine/resources/containers/TextResource.cpp
+        src/arke/engine/resources/ResourceType.h
         src/arke/engine/resources/loaders/BinaryLoader.h
         src/arke/engine/resources/loaders/BinaryLoader.cpp
-        src/arke/engine/resources/containers/BinaryResource.h
-        src/arke/engine/resources/containers/BinaryResource.cpp
         src/arke/engine/graphics/Factory.h
         src/arke/engine/graphics/backends/opengl/FactoryGL.h
         src/arke/engine/graphics/backends/opengl/FactoryGL.cpp
@@ -90,6 +86,12 @@ set(SOURCES
         src/arke/engine/ui/DrawContext.h
         src/arke/engine/ui/DrawCall.h
         src/arke/engine/ui/DrawContext.cpp
+        src/arke/engine/graphics/Texture.h
+        src/arke/engine/graphics/Texture.cpp
+        src/arke/engine/graphics/backends/opengl/TextureGL.h
+        src/arke/engine/graphics/backends/opengl/TextureGL.cpp
+        src/arke/engine/resources/loaders/TextureLoader.cpp
+        src/arke/engine/resources/loaders/TextureLoader.h
 )
 
 file(GLOB_RECURSE PREDEFINED_SHADER_SOURCES assets/shaders/src/*)

@@ -6,7 +6,7 @@ namespace Arke {
         return "BinaryLoader";
     }
 
-    ResourceContainer* BinaryLoader::load(std::filesystem::path path) {
+    ResourceType* BinaryLoader::load(std::filesystem::path path) {
         std::ifstream inStream(path, std::ios::binary);
 
         if(!inStream.is_open()) {

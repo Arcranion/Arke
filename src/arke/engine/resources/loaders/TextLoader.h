@@ -7,9 +7,11 @@
 using namespace util;
 
 namespace Arke {
+    using TextResource = ResourceContainer<std::string>;
+
     class TextLoader: public ResourceLoader {
         std::string name() override;
 
-        ResourceContainer* load(std::filesystem::path path) override;
+        ResourceType* load(std::filesystem::path path) override;
     };
 }

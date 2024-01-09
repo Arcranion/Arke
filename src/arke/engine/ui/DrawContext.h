@@ -9,6 +9,9 @@ namespace Arke::UI {
     public:
         class Node;
     private:
+        /**
+         * Root node must be group node
+         */
         Node* rootNode = new Node(nullptr, nullptr); // Root node
         Node* lastAddedNode = nullptr; // Last added node
         Node* currentNode = rootNode; // Current tree node
@@ -25,6 +28,10 @@ namespace Arke::UI {
          * End tree and move to previous(parent of currentNode) node
          */
         void endTree();
+
+        Node* getRootNode();
+        Node* getLastAddedNode();
+        Node* getCurrentNode();
 
         class Node {
         public:
