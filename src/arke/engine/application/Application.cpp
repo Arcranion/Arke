@@ -16,7 +16,12 @@ namespace Arke {
             return;
         }
 
-        this->main->initialize();
+        try {
+            this->main->initialize();
+        } catch (const std::exception& e) {
+            this->logger->critical("Exception while initializing main: {}", e.what());
+            return;
+        }
 
         auto updater = new ApplicationUpdater(this);
         auto looper = this->window()->looper(updater);
