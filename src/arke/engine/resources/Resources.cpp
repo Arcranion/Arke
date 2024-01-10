@@ -57,6 +57,9 @@ namespace Arke {
     void Resources::queue(std::string loaderName, const std::string& path) {
         this->remaining++;
 
+        if(!std::filesystem::exists(path))
+            throw formatted_error("Failed to queue \"{}\" which does not exist", path);
+
         resourceQueue[path] = std::move(loaderName);
     }
 
