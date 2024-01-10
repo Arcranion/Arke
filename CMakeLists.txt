@@ -4,7 +4,7 @@ project(Arke)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include(cmake/Shaders.cmake)
+include(cmake/Targets.cmake)
 
 find_package(
         Python3
@@ -110,8 +110,6 @@ add_library(Arke STATIC ${SOURCES})
 #        --binary "${PROJECT_SOURCE_DIR}/assets/shaders/bin"
 #        --generated-output "${PROJECT_SOURCE_DIR}/src/generated/header"
 #)
-
-include(cmake/Targets.cmake)
 
 file(GLOB_RECURSE GENERATED_SHADER_HEADERS src/generated/*)
 
