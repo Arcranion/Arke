@@ -29,6 +29,9 @@ namespace Arke {
         virtual void upload(bool freeData) = 0;
         virtual void upload() { this->upload(true); }
 
+        virtual void bind() = 0;
+        virtual void unbind() = 0;
+
         static Texture* load(const std::filesystem::path& path);
         static Data* loadData(const std::filesystem::path& path);
 

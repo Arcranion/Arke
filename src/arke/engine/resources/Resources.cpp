@@ -5,18 +5,23 @@
 #include <arke/engine/resources/loaders/BinaryLoader.h>
 #include "Resources.h"
 
+#include <ranges>
+
+#include "loaders/TextureLoader.h"
+
 namespace Arke {
     void Resources::addPath(const std::filesystem::path& path) {
         this->resourcePaths.push_back(path);
     }
 
     void Resources::removePath(const std::filesystem::path& path) {
-        this->resourcePaths.erase(std::remove(this->resourcePaths.begin(), this->resourcePaths.end(),path), this->resourcePaths.end());
+        std::erase(this->resourcePaths,path);
     }
 
     void Resources::addDefaultLoaders() {
         this->addLoader(new TextLoader());
         this->addLoader(new BinaryLoader());
+        this->addLoader(new TextureLoader());
     }
 
     void Resources::addLoader(ResourceLoader *loader) {
@@ -24,19 +29,17 @@ namespace Arke {
     }
 
     ResourceLoader *Resources::getLoader(std::string loaderName) {
-        auto loader = std::find_if(this->resourceLoaders.begin(), this->resourceLoaders.end(), [&loaderName](ResourceLoader* loader) {
+        if(const auto loader = std::ranges::find_if(this->resourceLoaders, [&loaderName](ResourceLoader* loader) {
             return loader->name() == loaderName;
-        });
-
-        if(loader != this->resourceLoaders.end()) {
+        }); loader != this->resourceLoaders.end()) {
             return *loader;
-        } else {
-            return nullptr;
         }
+
+        return nullptr;
     }
 
     void Resources::load(std::string loaderName, std::string path) {
-        auto loader = this->getLoader(loaderName);
+        const auto loader = this->getLoader(loaderName);
         if(!loader) {
             throw formatted_error("Loader named \"{}\" not found", loaderName);
         }
@@ -57,21 +60,27 @@ namespace Arke {
     void Resources::queue(std::string loaderName, const std::string& path) {
         this->remaining++;
 
-        if(!std::filesystem::exists(path))
-            throw formatted_error("Failed to queue \"{}\" which does not exist", path);
+        for(const auto& root: this->resourcePaths) {
+            auto filePath = root / path;
+            if (!std::filesystem::is_regular_file(filePath) || !std::filesystem::exists(filePath))
+                continue;
 
-        resourceQueue[path] = std::move(loaderName);
+            resourceQueue[path] = std::move(loaderName);
+            return;
+        }
+
+        throw formatted_error("Failed to queue \"{}\" which does not exist", path);
     }
 
-    void Resources::process(std::chrono::milliseconds duration) {
-        std::chrono::time_point start = std::chrono::system_clock::now();
+    void Resources::process(const std::chrono::milliseconds duration) {
+        const std::chrono::time_point start = std::chrono::system_clock::now();
 
         auto loaded = std::vector<std::string>();
 
-        for (const auto &item: resourceQueue) {
+        for (const auto &[loader, path]: resourceQueue) {
             if(std::chrono::system_clock::now() - start > duration) break;
-            this->load(item.second, item.first);
-            loaded.emplace_back(item.first);
+            this->load(path, loader);
+            loaded.emplace_back(loader);
             this->remaining--;
         }
 
@@ -89,8 +98,8 @@ namespace Arke {
     }
 
     void Resources::dispose() {
-        for (const auto &item: this->resources) {
-            return item.second->dispose();
+        for (const auto &val: this->resources | std::views::values) {
+            return val->dispose();
         }
 
         this->resources.clear();

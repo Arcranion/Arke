@@ -21,8 +21,8 @@ namespace Arke {
 
         void upload(bool freeData) override;
 
-        void bind() const;
-        void unbind() const;
+        void bind() override;
+        void unbind() override;
 
         void dispose() override;
 

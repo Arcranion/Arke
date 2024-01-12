@@ -1,3 +1,4 @@
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 #include <arke/engine/application/Core.h>
 #include "Texture.h"

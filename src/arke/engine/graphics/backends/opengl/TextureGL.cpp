@@ -36,11 +36,11 @@ namespace Arke {
 
     }
 
-    void TextureGL::bind() const {
+    void TextureGL::bind() {
         glBindTexture(GL_TEXTURE_2D, this->_handle);
     }
 
-    void TextureGL::unbind() const {
+    void TextureGL::unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
@@ -53,7 +53,7 @@ namespace Arke {
         return this->_handle;
     }
 
-    int TextureGL::convertWrap(Texture::Wrap wrap) {
+    int TextureGL::convertWrap(const Texture::Wrap wrap) {
         switch (wrap) {
             case Wrap::Repeat:
                 return GL_REPEAT;
